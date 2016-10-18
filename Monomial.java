@@ -67,7 +67,7 @@ public class Monomial {
 
       String monomial = "";
 
-      if (coeff == 0) {
+      if (coefficient.equals("0")) {
          return "0";
       }
       if (minusCoeff) {
@@ -75,54 +75,54 @@ public class Monomial {
       } else {
          monomial = "+";
       }
-      if (coeff != 1) {
-         monomial += removeZeroes(coeff);
+      if (!(coefficient.equals(1))) {
+         monomial += coefficient;
       }
-      if (coeff == 1) {
-         if (exp == 0) {
-            monomial += removeZeroes(coeff);
+      if (coefficient.equals(1)) {
+         if (exponent.equals(0)) {
+            monomial += coefficient;
          }
       }
-      if (exp == 0) {
+      if (exponent.equals(0)) {
          return monomial;
       }
       monomial += variable;
-      if (exp != 1) {
+      if (!(exponent.equals(1))) {
          monomial += '^';
          if (minusExp) {
             monomial += '-';
          }
-         monomial += removeZeroes(exp);
+         monomial += exponent;
       }
       return monomial;
    }
 
-   public Monomial derivative() {
+   // public Monomial derivative() {
+   //
+   //    Monomial deriv = new Monomial();
+   //
+   //    deriv.coefficient.equals( = this.coefficient.equals( * this.exp;
+   //    deriv.minusCoeff = this.minusCoeff ^ this.minusExp;
+   //    deriv.variable = this.variable;
+   //    if (this.minusExp) {
+   //       deriv.exp = this.exp + 1;
+   //       deriv.minusExp = true;
+   //    } else {
+   //       deriv.exp = this.exp - 1;
+   //       deriv.minusExp = false;
+   //       if (deriv.exp < 0) {
+   //          deriv.exp *= -1;
+   //          deriv.minusExp = true;
+   //       }
+   //    }
+   //
+   //    return deriv;
+   // }
 
-      Monomial deriv = new Monomial();
-
-      deriv.coeff = this.coeff * this.exp;
-      deriv.minusCoeff = this.minusCoeff ^ this.minusExp;
-      deriv.variable = this.variable;
-      if (this.minusExp) {
-         deriv.exp = this.exp + 1;
-         deriv.minusExp = true;
-      } else {
-         deriv.exp = this.exp - 1;
-         deriv.minusExp = false;
-         if (deriv.exp < 0) {
-            deriv.exp *= -1;
-            deriv.minusExp = true;
-         }
-      }
-
-      return deriv;
-   }
-
-   public static String removeZeroes(double d) {
-      if(d == (long) d)
-           return String.format("%d",(long)d);
-      else
-           return String.format("%s",d);
-   }
-}
+//    public static String removeZeroes(double d) {
+//       if(d == (long) d)
+//            return String.format("%d",(long)d);
+//       else
+//            return String.format("%s",d);
+//    }
+// }
