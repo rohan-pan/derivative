@@ -2,7 +2,6 @@ public class Monomial {
 
    String coefficient;
    String exponent;
-
    String variable;
    boolean minusCoeff;
    boolean minusExp;
@@ -24,15 +23,9 @@ public class Monomial {
 
          if (mono.charAt(0) == '-') { // negative
             coefficient = mono.substring(1);
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = true;
          } else { // positive
             coefficient = mono;
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = false;
          }
 
@@ -43,15 +36,9 @@ public class Monomial {
 
          if (mono.charAt(0) == '-') { // negative coefficient
             coefficient = mono.substring(1,mono.indexOf(var));
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = true;
          } else { // positive coefficient
             coefficient = mono.substring(0,mono.indexOf(var));
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = false;
          }
 
@@ -59,29 +46,17 @@ public class Monomial {
 
          if (mono.charAt(0) == '-') { // negative coefficient
             coefficient = mono.substring(1,mono.indexOf(var));
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = true;
          } else { // positive coefficient
             coefficient = mono.substring(0,mono.indexOf(var));
-            if (!(coefficient.equals(""))) {
-               coeff = Double.parseDouble(coefficient);
-            }
             minusCoeff = false;
          }
 
          if (mono.charAt(mono.indexOf('^') + 1) == '-') { // negative exponent
             exponent = mono.substring(mono.indexOf('^') + 2);
-            if (!(exponent.equals(""))) {
-               exp = Double.parseDouble(exponent);
-            }
             minusExp = true;
          } else { // positive exponent
             exponent = mono.substring(mono.indexOf('^') + 1);
-            if (!(exponent.equals(""))) {
-               exp = Double.parseDouble(exponent);
-            }
             minusExp = false;
          }
       }
