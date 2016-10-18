@@ -14,52 +14,56 @@ public class Monomial {
 
    public static Monomial parseMonomial(String mono, String var) {
 
-      variable = var;
+      Monomial m = new Monomial();
+
+      m.variable = var;
 
       if (mono.indexOf(var) == -1) { // constant
 
-         exp = 0;
-         minusExp = false;
+         m.exponent = "0";
+         m.minusExp = false;
 
          if (mono.charAt(0) == '-') { // negative
-            coefficient = mono.substring(1);
-            minusCoeff = true;
+            m.coefficient = mono.substring(1);
+            m.minusCoeff = true;
          } else { // positive
-            coefficient = mono;
-            minusCoeff = false;
+            m.coefficient = mono;
+            m.minusCoeff = false;
          }
 
       } else if (mono.indexOf('^') == -1) { // implicit 1st power
 
-         exp = 1;
-         minusExp = false;
+         m.exponent = "1";
+         m.minusExp = false;
 
          if (mono.charAt(0) == '-') { // negative coefficient
-            coefficient = mono.substring(1,mono.indexOf(var));
-            minusCoeff = true;
+            m.coefficient = mono.substring(1,mono.indexOf(var));
+            m.minusCoeff = true;
          } else { // positive coefficient
-            coefficient = mono.substring(0,mono.indexOf(var));
-            minusCoeff = false;
+            m.coefficient = mono.substring(0,mono.indexOf(var));
+            m.minusCoeff = false;
          }
 
       } else { // non degenerate monomial
 
          if (mono.charAt(0) == '-') { // negative coefficient
-            coefficient = mono.substring(1,mono.indexOf(var));
-            minusCoeff = true;
+            m.coefficient = mono.substring(1,mono.indexOf(var));
+            m.minusCoeff = true;
          } else { // positive coefficient
-            coefficient = mono.substring(0,mono.indexOf(var));
-            minusCoeff = false;
+            m.coefficient = mono.substring(0,mono.indexOf(var));
+            m.minusCoeff = false;
          }
 
          if (mono.charAt(mono.indexOf('^') + 1) == '-') { // negative exponent
-            exponent = mono.substring(mono.indexOf('^') + 2);
-            minusExp = true;
+            m.exponent = mono.substring(mono.indexOf('^') + 2);
+            m.minusExp = true;
          } else { // positive exponent
-            exponent = mono.substring(mono.indexOf('^') + 1);
-            minusExp = false;
+            m.exponent = mono.substring(mono.indexOf('^') + 1);
+            m.minusExp = false;
          }
       }
+
+      return m;
    }
 
    @Override
@@ -96,6 +100,11 @@ public class Monomial {
       }
       return monomial;
    }
+
+   // Gets and Sets
+
+
+}
 
    // public Monomial derivative() {
    //
