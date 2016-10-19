@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.lang.StringBuffer;
+import java.util.ArrayList;
 
 public class Derivative {
    public static void main(String[] args) {
@@ -13,51 +14,122 @@ public class Derivative {
 
       // Input
 
-      System.out.print("Enter a polynomial: ");
+      System.out.print("Enter an expression: ");
       expression = keyboard.nextLine();
       System.out.print("Enter the variable: ");
       variable = keyboard.nextLine();
 
       // Processing
 
-      Monomial mono = new Monomial();
-      mono = Monomial.parseMonomial(expression, variable);
-      output = mono.toString();
-
-      // polynomial = explicit(expression).split("\\+");
-      // monomials = new Monomial[polynomial.length];
-      // derivatives = new Monomial[polynomial.length];
-      // for (int i = 0; i < polynomial.length; i++) {
-      //    monomials[i] = new Monomial(polynomial[i], variable);
-      //    derivatives[i] = monomials[i].derivative();
-      //    if (derivatives[i].toString() != "0") {
-      //       output += derivatives[i].toString();
-      //    }
-      // }
-      // if (output.charAt(0) == '+') {
-      //    output = output.substring(1);
-      // }
+      explicit(expression);
 
       // Output
 
-      System.out.println(output);
+      // System.out.println(output);
    }
 
-   public static String explicit(String userInput) {
+   // public static Term[] explicit(String s) {
+   //
+   //    String expl = "";
+   //    String chop = s;
+   //    int count = 1;
+   //    int counter = 0;
+   //    int leftParen = 0;
+   //    int rightParen = 0;
+   //    int[] plusses;
+   //    String[] addends;
+   //
+      // for (int i = 0; i < s.length(); i++) {
+      //    if (s.charAt(i) == '-') {
+      //       expl += "+-";
+      //       count++;
+      //    } else {
+      //       expl += s.charAt(i);
+      //    }
+      // }
+   //
+   //    plusses = new int[count];
+   //    for (int i = 0; i < s.length(); i++) {
+   //       int index = 0;
+   //       if (s.charAt(i) == '+') {
+   //          plusses[count] = index;
+   //          count++;
+   //       }
+   //    }
+   //
+   //    for (int i = 0; i < plusses.length; i++) {
+   //       int j = 0;
+   //       int[] parentPlusses = new int[plusses.length];
+   //       for (j = 0; j < s.substring(0,plusses[i]).length(); j++) {
+            // if (s.charAt(j) == '(') {
+            //    leftParen++;
+            // } else if (s.charAt(j) == ')') {
+            //    rightParen++;
+            // }
+   //       }
+   //       if (leftParen == rightParen) {
+   //          parentPlusses[counter] = plusses[i];
+   //          counter++;
+   //       }
+   //    }
+   //
+   //    for (int i = parentPlusses.length; i >= 0; i--) {
+   //       addends[i] = chop.substring(parentPlusses[i] + 1);
+   //       chop = chop.substring(0,parentPlusses[i]);
+   //       System.out.println(addends[i]);
+   //    }
+   //
+   //
+   //
+   //    return null;
+   // }
 
+   public static ArrayList explicit(String s) {
       String expl = "";
-      for (int i = 0; i < userInput.length(); i++) {
-         if (userInput.charAt(i) == '-') {
+      String chop = s;
+      int count = 1;
+      int leftParen = 0;
+      int rightParen = 0;
+      ArrayList<Integer> indexOfPlusses = new ArrayList<Integer>();
+      ArrayList<Integer> indexOfParentPlusses = new ArrayList<Integer>();
+
+      for (int i = 0; i < s.length(); i++) {
+         if (s.charAt(i) == '-') {
             expl += "+-";
+            count++;
          } else {
-            expl += userInput.charAt(i);
+            expl += s.charAt(i);
          }
       }
 
-      if (expl.charAt(0) == '+') {
-         expl = expl.substring(1);
+      System.out.println(expl);
+
+      for (int i = 0; i < expl.length(); i++) {
+         if (expl.charAt(i) == '+') {
+            indexOfPlusses.add(i);
+         }
+      }
+      for (int i = 0; i < indexOfPlusses.size(); i++) {
+         System.out.println(indexOfPlusses.get(i));
+      }
+      for (int iterate : indexOfPlusses) {
+         leftParen = 0;
+         rightParen = 0;
+         for (int i = 0; i < expl.substring(0,iterate).length(); i++) {
+            if (expl.charAt(i) == '(') {
+               leftParen++;
+            } else if (expl.charAt(i) == ')') {
+               rightParen++;
+            }
+         }
+         if (leftParen == rightParen) {
+            indexOfParentPlusses.add(iterate);
+         }
+      }
+      for (int i = 0; i < indexOfParentPlusses.size(); i++) {
+         System.out.println(indexOfParentPlusses.get(i));
       }
 
-      return expl;
+      return null;
    }
 }

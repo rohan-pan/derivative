@@ -1,10 +1,11 @@
-public class Monomial {
+public class Monomial extends Term {
 
    String coefficient;
    String exponent;
    String variable;
    boolean minusCoeff;
    boolean minusExp;
+   int caratIndex;
 
    // Constructors
 
@@ -16,6 +17,7 @@ public class Monomial {
 
       Monomial m = new Monomial();
 
+      // m.caratIndex =
       m.variable = var;
 
       if (mono.indexOf(var) == -1) { // constant
