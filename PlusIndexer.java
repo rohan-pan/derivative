@@ -47,18 +47,22 @@ public class PlusIndexer {
    public static String[] getTerms(Explicit expl) {
 
       ArrayList<Integer> parPlus = indexParentPlusses(expl);
+      final ArrayList<Integer> PAR_PLUS = parPlus;
 
       String chop = expl.toString();
 
       String[] terms = new String[parPlus.size() + 1];
       for (int i = 0; i < parPlus.size(); i++) {
          terms[i] = chop.substring(0, parPlus.get(i));
-         chop = chop.substring(parPlus.get(i) + 1);
-         parPlus.set(i+1, parPlus.get(i+1) - parPlus.get(i));
          System.out.println(terms[i]);
+         chop = chop.substring(parPlus.get(i) + 1);
+         if (parPlus.size() - i != 1) {
+            parPlus.set(i + 1, parPlus.get(i + 1) - PAR_PLUS.get(i) - 1);
+         } else {
+            terms[i + 1] = chop;
+            System.out.println(terms[i + 1]);
+         }
       }
-      terms[terms.length - 1] = chop;
-      System.out.println(terms[terms.length - 1]);
 
       return terms;
    }

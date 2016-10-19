@@ -12,7 +12,7 @@ public class Explicit{
 
       Explicit e = new Explicit();
 
-      e.value = s;
+      e.value = "";
 
       for (int i = 0; i < s.length(); i++) {
          if (s.charAt(i) == '-') {
