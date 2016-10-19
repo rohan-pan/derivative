@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public class Derivative {
    public static void main(String[] args) {
+
       Scanner keyboard = new Scanner(System.in);
       String expression;
       String variable;
-      String output = "";
-      String[] polynomial;
-      Monomial[] monomials;
-      Monomial[] derivatives;
 
+      Explicit ex;
+
+      String output = "";
+      String[] outputArray;
       // Input
 
       System.out.print("Enter an expression: ");
@@ -21,7 +22,8 @@ public class Derivative {
 
       // Processing
 
-      explicit(expression);
+      ex = Explicit.explicate(expression);
+      outputArray = PlusIndexer.getTerms(ex);
 
       // Output
 
@@ -84,52 +86,60 @@ public class Derivative {
    //    return null;
    // }
 
-   public static ArrayList explicit(String s) {
-      String expl = "";
-      String chop = s;
-      int count = 1;
-      int leftParen = 0;
-      int rightParen = 0;
-      ArrayList<Integer> indexOfPlusses = new ArrayList<Integer>();
-      ArrayList<Integer> indexOfParentPlusses = new ArrayList<Integer>();
+   // public static ArrayList explicit(String s) {
+   //    String expl = "";
+   //    String chop;
+   //    int count = 1;
+   //    int leftParen = 0;
+   //    int rightParen = 0;
+   //    ArrayList<Integer> indexOfPlusses = new ArrayList<Integer>();
+   //    ArrayList<Integer> indexOfParentPlusses = new ArrayList<Integer>();
+   //    String[] terms;
 
-      for (int i = 0; i < s.length(); i++) {
-         if (s.charAt(i) == '-') {
-            expl += "+-";
-            count++;
-         } else {
-            expl += s.charAt(i);
-         }
-      }
+      // for (int i = 0; i < s.length(); i++) {
+      //    if (s.charAt(i) == '-') {
+      //       expl += "+-";
+      //       count++;
+      //    } else {
+      //       expl += s.charAt(i);
+      //    }
+      // } MOVED TO EXPLICIT CLASS
 
-      System.out.println(expl);
+      // for (int i = 0; i < expl.length(); i++) {
+      //    if (expl.charAt(i) == '+') {
+      //       indexOfPlusses.add(i);
+      //    }
+      // } MOVED TO PLUSINDEXER CLASS
 
-      for (int i = 0; i < expl.length(); i++) {
-         if (expl.charAt(i) == '+') {
-            indexOfPlusses.add(i);
-         }
-      }
-      for (int i = 0; i < indexOfPlusses.size(); i++) {
-         System.out.println(indexOfPlusses.get(i));
-      }
-      for (int iterate : indexOfPlusses) {
-         leftParen = 0;
-         rightParen = 0;
-         for (int i = 0; i < expl.substring(0,iterate).length(); i++) {
-            if (expl.charAt(i) == '(') {
-               leftParen++;
-            } else if (expl.charAt(i) == ')') {
-               rightParen++;
-            }
-         }
-         if (leftParen == rightParen) {
-            indexOfParentPlusses.add(iterate);
-         }
-      }
-      for (int i = 0; i < indexOfParentPlusses.size(); i++) {
-         System.out.println(indexOfParentPlusses.get(i));
-      }
+      // for (int iterate : indexOfPlusses) {
+      //    leftParen = 0;
+      //    rightParen = 0;
+      //    for (int i = 0; i < expl.substring(0,iterate).length(); i++) {
+      //       if (expl.charAt(i) == '(') {
+      //          leftParen++;
+      //       } else if (expl.charAt(i) == ')') {
+      //          rightParen++;
+      //       }
+      //    }
+      //    if (leftParen == rightParen) {
+      //       indexOfParentPlusses.add(iterate);
+      //    }
+      // } MOVED TO PLUSINDEXER CLASS
 
-      return null;
-   }
+      // for (int i = 0; i < indexOfParentPlusses.size(); i++) {
+      //    System.out.println(indexOfParentPlusses.get(i));
+      // }
+
+      // chop = expl;
+      // terms = new String[indexOfParentPlusses.size() + 1];
+      // for (int i = 0; i < indexOfParentPlusses.size(); i++) {
+      //    terms[i] = chop.substring(0, indexOfParentPlusses.get(i));
+      //    chop = chop.substring(indexOfParentPlusses.get(i) + 1);
+      //    System.out.println(terms[i]);
+      // }
+      // terms[terms.length - 1] = chop;
+      // System.out.println(terms[terms.length - 1]);
+      //
+      // return null; MOVED TO PLUSINDEXER CLASS
+      // }
 }
