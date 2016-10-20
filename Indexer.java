@@ -72,7 +72,8 @@ public class Indexer {
 
    static Pseudoterm[] getTerms(Explicit expl) {
 
-      ArrayList<Integer> parPlus = indexParentPlusses(expl);
+        ArrayList<Integer> parPlus = indexParentPlusses(expl);
+        ArrayList<Integer> ppCopy = new ArrayList<>(parPlus);
 
       String chop = expl.toString();
 
@@ -81,7 +82,7 @@ public class Indexer {
          pterms[i] = Pseudoterm.setPseudoterm(chop.substring(0, parPlus.get(i)));
          chop = chop.substring(parPlus.get(i) + 1);
          if (parPlus.size() - i != 1) {
-            parPlus.set(i + 1, parPlus.get(i + 1) - parPlus.get(i) - 1); //THIS IS A PROBLEM LINE
+            parPlus.set(i + 1, parPlus.get(i + 1) - ppCopy.get(i) - 1);
          }
       }
 
@@ -115,7 +116,7 @@ public class Indexer {
     * @return the index of the parent operator
     */
 
-    static int parentOperator(String strong) {
+    static int parentOperator(String strong) { // DEBUG THIS TOMORROW
 
       ArrayList<Integer> ops = indexOperators(strong);
       int parent = depth(strong, ops.get(0));
