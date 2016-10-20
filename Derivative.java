@@ -1,8 +1,15 @@
 import java.util.Scanner;
-import java.lang.StringBuffer;
-import java.util.ArrayList;
+
+/** Natural-language derivative calculator.
+ *  @author Rohan
+ */
 
 public class Derivative {
+
+   /** Main method.
+    *
+    * @param args unused
+    */
    public static void main(String[] args) {
 
       Scanner keyboard = new Scanner(System.in);
@@ -11,8 +18,7 @@ public class Derivative {
 
       Explicit ex;
 
-      String output = "";
-      String[] outputArray;
+      Pseudoterm[] outputArray;
       // Input
 
       System.out.print("Enter an expression: ");
@@ -23,12 +29,15 @@ public class Derivative {
       // Processing
 
       ex = Explicit.explicate(expression);
-      outputArray = PlusIndexer.getTerms(ex);
+      outputArray = Indexer.getTerms(ex);
 
       // Output
 
-      // System.out.println(output);
+      for (Pseudoterm anOutputArray : outputArray) {
+         System.out.println(anOutputArray.toString());
+      }
    }
+
 
    // public static Term[] explicit(String s) {
    //
@@ -109,7 +118,7 @@ public class Derivative {
       //    if (expl.charAt(i) == '+') {
       //       indexOfPlusses.add(i);
       //    }
-      // } MOVED TO PLUSINDEXER CLASS
+      // } MOVED TO Indexer CLASS
 
       // for (int iterate : indexOfPlusses) {
       //    leftParen = 0;
@@ -124,7 +133,7 @@ public class Derivative {
       //    if (leftParen == rightParen) {
       //       indexOfParentPlusses.add(iterate);
       //    }
-      // } MOVED TO PLUSINDEXER CLASS
+      // } MOVED TO Indexer CLASS
 
       // for (int i = 0; i < indexOfParentPlusses.size(); i++) {
       //    System.out.println(indexOfParentPlusses.get(i));
@@ -140,6 +149,6 @@ public class Derivative {
       // terms[terms.length - 1] = chop;
       // System.out.println(terms[terms.length - 1]);
       //
-      // return null; MOVED TO PLUSINDEXER CLASS
+      // return null; MOVED TO Indexer CLASS
       // }
 }
