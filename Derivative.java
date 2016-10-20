@@ -25,7 +25,7 @@ public class Derivative {
 
       System.out.print("Enter an expression: ");
       expression = keyboard.nextLine();
-      System.out.print("Enter the variable: ");
+//      System.out.print("Enter the index: ");
 //      variable = keyboard.nextLine();
 
       // Processing and Output

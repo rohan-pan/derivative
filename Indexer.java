@@ -119,10 +119,10 @@ public class Indexer {
     static int parentOperator(String strong) { // DEBUG THIS TOMORROW
 
       ArrayList<Integer> ops = indexOperators(strong);
-      int parent = depth(strong, ops.get(0));
+      int parent = ops.get(0);
 
       for (int i = 1; i < ops.size(); i++) {
-         if (depth(strong, ops.get(i)) < parent) {
+         if (depth(strong, ops.get(i)) < depth(strong, parent)) {
             parent = ops.get(i);
          }
       }
@@ -153,6 +153,37 @@ public class Indexer {
       }
 
       return left - right;
+   }
+
+    static String matchParen(String strong, int index) {
+
+       int depth;
+       String sub;
+       String matched = "(";
+        if (strong.charAt(index) == '(') {
+            sub = strong.substring(index);
+            depth = Indexer.depth(sub, 0);
+            for (int i = 1; i < sub.length(); i++) {
+                if (Indexer.depth(sub, i) > depth) {
+                    matched += sub.charAt(i);
+                } else {
+                    return matched;
+                }
+            }
+        } else if (strong.charAt(index) == ')') {
+            sub = strong.substring(0,index + 1);
+            depth = Indexer.depth(sub, sub.length() - 1);
+            for (int i = 1; i < sub.length(); i++) {
+                if (Indexer.depth(sub, i) >= depth) {
+                    matched += sub.charAt(i);
+                } else {
+                    matched = "(";
+                }
+            }
+
+       }
+
+       return matched;
    }
 
 }

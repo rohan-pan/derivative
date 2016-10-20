@@ -27,7 +27,11 @@ public class Explicit{
 
       e.value = "";
 
-      for (int i = 0; i < s.length(); i++) {
+        if (s.charAt(0) != '+') {
+            e.value += s.charAt(0);
+        }
+
+      for (int i = 1; i < s.length(); i++) {
          if (s.charAt(i) == '-') {
             e.value += "+-";
          } else {

@@ -4,7 +4,7 @@
  */
 public class Operator {
 
-    final static String OPERATORS = "*/^LSC";
+    final static String OPERATORS = "PQELSC";
 
     private char operation;
 
