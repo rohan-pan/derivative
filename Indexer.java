@@ -73,7 +73,6 @@ public class Indexer {
    static Pseudoterm[] getTerms(Explicit expl) {
 
       ArrayList<Integer> parPlus = indexParentPlusses(expl);
-      final ArrayList<Integer> PAR_PLUS = parPlus;
 
       String chop = expl.toString();
 
@@ -82,11 +81,11 @@ public class Indexer {
          pterms[i] = Pseudoterm.setPseudoterm(chop.substring(0, parPlus.get(i)));
          chop = chop.substring(parPlus.get(i) + 1);
          if (parPlus.size() - i != 1) {
-            parPlus.set(i + 1, parPlus.get(i + 1) - PAR_PLUS.get(i) - 1);
-         } else {
-            pterms[i + 1] = Pseudoterm.setPseudoterm(chop);
+            parPlus.set(i + 1, parPlus.get(i + 1) - parPlus.get(i) - 1); //THIS IS A PROBLEM LINE
          }
       }
+
+       pterms[pterms.length - 1] = Pseudoterm.setPseudoterm(chop);
 
       return pterms;
    }
@@ -119,10 +118,10 @@ public class Indexer {
     static int parentOperator(String strong) {
 
       ArrayList<Integer> ops = indexOperators(strong);
-      int parent = Indexer.depth(strong, ops.get(0));
+      int parent = depth(strong, ops.get(0));
 
       for (int i = 1; i < ops.size(); i++) {
-         if (ops.get(i) < parent) {
+         if (depth(strong, ops.get(i)) < parent) {
             parent = ops.get(i);
          }
       }

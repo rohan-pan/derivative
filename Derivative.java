@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /** Natural-language derivative calculator.
@@ -35,7 +34,7 @@ public class Derivative {
       outputArray = Indexer.getTerms(ex);
 
       for (Pseudoterm anOutputArray1 : outputArray) {
-         debug1 = Term.parseTerm(anOutputArray1);
+         debug1 = Term.strongPseudo(anOutputArray1);
          System.out.print(debug1 + " ");
          int debug2 = Indexer.parentOperator(debug1);
          System.out.println(debug2);
