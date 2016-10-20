@@ -10,6 +10,8 @@ public class Term implements Differentiable {
    Operator operator = new Operator();
    String operand;
 
+   String strong;
+
    // Constructors
 
    /** Default constructor.
@@ -26,7 +28,7 @@ public class Term implements Differentiable {
     * @return the Term object
     */
 
-   public Term parseTerm(Pseudoterm pseudo) {
+    static String parseTerm(Pseudoterm pseudo) {
 
       StringBuilder modify = new StringBuilder(pseudo.toString());
 
@@ -50,11 +52,7 @@ public class Term implements Differentiable {
          modify.replace(modify.indexOf("cos("), modify.charAt(modify.indexOf("cos(") + 4), "S(");
       }
 
-
-
-
-
-      return null;
+      return modify.toString();
    }
 
    /** Calculates the derivative of a term. (WIP)

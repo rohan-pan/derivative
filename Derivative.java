@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /** Natural-language derivative calculator.
@@ -19,23 +20,32 @@ public class Derivative {
       Explicit ex;
 
       Pseudoterm[] outputArray;
+      String debug1;
+
       // Input
 
       System.out.print("Enter an expression: ");
       expression = keyboard.nextLine();
       System.out.print("Enter the variable: ");
-      variable = keyboard.nextLine();
+//      variable = keyboard.nextLine();
 
-      // Processing
+      // Processing and Output
 
       ex = Explicit.explicate(expression);
       outputArray = Indexer.getTerms(ex);
 
+      for (Pseudoterm anOutputArray1 : outputArray) {
+         debug1 = Term.parseTerm(anOutputArray1);
+         System.out.print(debug1 + " ");
+         int debug2 = Indexer.parentOperator(debug1);
+         System.out.println(debug2);
+      }
+
+
+
       // Output
 
-      for (Pseudoterm anOutputArray : outputArray) {
-         System.out.println(anOutputArray.toString());
-      }
+
    }
 
 

@@ -4,6 +4,8 @@
  */
 public class Operator {
 
+    final static String OPERATORS = "*/^LSC";
+
     private char operation;
 
     // Constructor
@@ -44,4 +46,14 @@ public class Operator {
     public void setOperation(char operation) {
         this.operation = operation;
     }
+
+    /** Getter.
+     *
+     * @return the string of final operators
+     */
+
+    public static String getOPERATORS() {
+        return OPERATORS;
+    }
+
 }

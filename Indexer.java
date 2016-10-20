@@ -93,13 +93,42 @@ public class Indexer {
 
    /** Method which takes a pseudoterm string and finds all operators.
     *
-    * @param pseudo the pseudoterm string
+    * @param strong the strongly typed pseudoterm string
     * @return an ArrayList of all the indices of the operators
     */
 
-   public ArrayList<Integer> indexOperators(String pseudo) {
+    private static ArrayList<Integer> indexOperators(String strong) {
 
-      return null;
+      ArrayList<Integer> indexOfOperators = new ArrayList<>();
+
+      for (int i = 0; i < strong.length(); i++) {
+         if (Operator.OPERATORS.contains(strong.charAt(i) + "")) {
+            indexOfOperators.add(i);
+         }
+      }
+
+      return indexOfOperators;
+   }
+
+   /** Method which finds the parent operator within a strongly typed pseudoterm string.
+    *
+    * @param strong the strongly typed pseudoterm string
+    * @return the index of the parent operator
+    */
+
+    static int parentOperator(String strong) {
+
+      ArrayList<Integer> ops = indexOperators(strong);
+      int parent = Indexer.depth(strong, ops.get(0));
+
+      for (int i = 1; i < ops.size(); i++) {
+         if (ops.get(i) < parent) {
+            parent = ops.get(i);
+         }
+      }
+
+      return parent;
+
    }
 
    /** Calculates the depth of a character (based on parentheses).
@@ -109,7 +138,7 @@ public class Indexer {
     * @return the depth of the char
     */
 
-   public int depth(String s, int index) {
+    private static int depth(String s, int index) {
       String sub = s.substring(0, index);
       int left = 0;
       int right = 0;
