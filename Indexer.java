@@ -98,7 +98,32 @@ public class Indexer {
     */
 
    public ArrayList<Integer> indexOperators(String pseudo) {
+
       return null;
+   }
+
+   /** Calculates the depth of a character (based on parentheses).
+    *
+    * @param s the string
+    * @param index the index of the character
+    * @return the depth of the char
+    */
+
+   public int depth(String s, int index) {
+      String sub = s.substring(0, index);
+      int left = 0;
+      int right = 0;
+
+      for (int i = 0; i < sub.length(); i++) {
+         if (sub.charAt(i) == '(') {
+            left++;
+         }
+         if (sub.charAt(i) == ')') {
+            right++;
+         }
+      }
+
+      return left - right;
    }
 
 }
