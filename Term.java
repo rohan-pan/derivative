@@ -247,7 +247,9 @@ public class Term implements Differentiable {
      */
 
     public boolean isConstant(char c) {
-        return Character.isLetterOrDigit(c) && (Character.isDigit(c) || !Operator.OPERATORS.contains(c + "") && c != Derivative.variable);
+        if (Character.isLetterOrDigit(c))
+            if (Character.isDigit(c) || !Operator.OPERATORS.contains(c + "") && c != Derivative.variable) return true;
+        return false;
     }
 
    /** Calculates the derivative of a term. (WIP)
