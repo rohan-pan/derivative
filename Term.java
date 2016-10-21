@@ -129,34 +129,45 @@ public class Term implements Differentiable {
             modify.replace(modify.indexOf("log("), modify.indexOf("log(") + 4, "L(10,");
         }
 
-        // Exp, Mult, Div - Runs into errors with loosely typed non-binary
+        // Exp, Mult, Div - Runs into errors with some complex non-binary. PROBABLY MUST REWRITE WITH SCALE IN MIND
 
         while (modify.indexOf("^") != -1) {
             if (modify.indexOf(")^(") != -1) {
                 transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")^("));
                 modify.delete(modify.indexOf(")^(") + 1 - transfer.length(), modify.indexOf(")^("));
                 modify.replace(modify.indexOf(")^("), modify.indexOf(")^(") + 3, "E(" + transfer + ",");
+            } else if (modify.indexOf(")^") != -1) {
+                int i = 1;
+                boolean ops = false;
+                while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf(")^") + i) + "")) {
+                    i++;
+                    ops = true;
+                }
+                if (ops) {
+                    modify.insert(modify.indexOf(")^") + Indexer.matchParen(modify.toString(), modify.indexOf(")^") + i).length() + 1, ")");
+                } else {
+                    modify.insert(modify.indexOf(")^") + 3, ')');
+                }
+                modify.insert(modify.indexOf(")^") + 2, '(');
+                transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")^"));
+                modify.delete(modify.indexOf(")^") + 1 - transfer.length(), modify.indexOf(")^"));
+                modify.replace(modify.indexOf(")^"), modify.indexOf(")^") + 3, "E(" + transfer + ",");
             } else if (modify.indexOf("^(") != -1) {
                 trans = modify.charAt(modify.indexOf("^(") - 1);
                 modify.deleteCharAt(modify.indexOf("^(") - 1);
                 modify.replace(modify.indexOf("^("), modify.indexOf("^(") +2, "E(" + trans + ",");
-            } else if (modify.indexOf(")^") != -1) {
-                modify.insert(modify.indexOf(")^") + 3, ')');
-                modify.insert(modify.indexOf(")^") + 2, '(');
-                transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")^("));
-                modify.delete(modify.indexOf(")^(") + 1 - transfer.length(), modify.indexOf(")^("));
-                modify.replace(modify.indexOf(")^("), modify.indexOf(")^(") + 3, "E(" + transfer + ",");
             } else if (modify.indexOf("^") != -1) {
+
+                trans = modify.charAt(modify.indexOf("^") - 1);
+                modify.deleteCharAt(modify.indexOf("^") - 1);
                 int i = 1;
                 boolean ops = false;
                 while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf("^") + i) + "")) {
                     i++;
                     ops = true;
                 }
-                trans = modify.charAt(modify.indexOf("^") - 1);
-                modify.deleteCharAt(modify.indexOf("^") - 1);
                 if (ops) {
-                    modify.insert(modify.indexOf("^") + Indexer.matchParen(modify.toString(), modify.indexOf("^") + i).length(), ")");
+                    modify.insert(modify.indexOf("^") + Indexer.matchParen(modify.toString(), modify.indexOf("^") + i).length() + 1, ")");
                 } else {
                     modify.insert(modify.indexOf("^") + 2, ')');
                 }
@@ -171,27 +182,38 @@ public class Term implements Differentiable {
                     transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")*("));
                     modify.delete(modify.indexOf(")*(") + 1 - transfer.length(), modify.indexOf(")*("));
                     modify.replace(modify.indexOf(")*("), modify.indexOf(")*(") + 3, "P(" + transfer + ",");
+                } else if (modify.indexOf(")*") != -1) {
+                    int i = 1;
+                    boolean ops = false;
+                    while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf(")*") + i) + "")) {
+                        i++;
+                        ops = true;
+                    }
+                    if (ops) {
+                        modify.insert(modify.indexOf(")*") + Indexer.matchParen(modify.toString(), modify.indexOf(")*") + i).length() + 1, ")");
+                    } else {
+                        modify.insert(modify.indexOf(")*") + 3, ')');
+                    }
+                    modify.insert(modify.indexOf(")*") + 2, '(');
+                    transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")*"));
+                    modify.delete(modify.indexOf(")*") + 1 - transfer.length(), modify.indexOf(")*"));
+                    modify.replace(modify.indexOf(")*"), modify.indexOf(")*") + 3, "P(" + transfer + ",");
                 } else if (modify.indexOf("*(") != -1) {
                     trans = modify.charAt(modify.indexOf("*(") - 1);
                     modify.deleteCharAt(modify.indexOf("*(") - 1);
                     modify.replace(modify.indexOf("*("), modify.indexOf("*(") +2, "P(" + trans + ",");
-                } else if (modify.indexOf(")*") != -1) {
-                    modify.insert(modify.indexOf(")*") + 3, ')');
-                    modify.insert(modify.indexOf(")*") + 2, '(');
-                    transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")*("));
-                    modify.delete(modify.indexOf(")*(") + 1 - transfer.length(), modify.indexOf(")*("));
-                    modify.replace(modify.indexOf(")*("), modify.indexOf(")*(") + 3, "P(" + transfer + ",");
                 } else if (modify.indexOf("*") != -1) {
+
+                    trans = modify.charAt(modify.indexOf("*") - 1);
+                    modify.deleteCharAt(modify.indexOf("*") - 1);
                     int i = 1;
                     boolean ops = false;
                     while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf("*") + i) + "")) {
                         i++;
                         ops = true;
                     }
-                    trans = modify.charAt(modify.indexOf("*") - 1);
-                    modify.deleteCharAt(modify.indexOf("*") - 1);
                     if (ops) {
-                        modify.insert(modify.indexOf("*") + Indexer.matchParen(modify.toString(), modify.indexOf("*") + i).length(), ")");
+                        modify.insert(modify.indexOf("*") + Indexer.matchParen(modify.toString(), modify.indexOf("*") + i).length() + 1, ")");
                     } else {
                         modify.insert(modify.indexOf("*") + 2, ')');
                     }
@@ -205,27 +227,38 @@ public class Term implements Differentiable {
                     transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")/("));
                     modify.delete(modify.indexOf(")/(") + 1 - transfer.length(), modify.indexOf(")/("));
                     modify.replace(modify.indexOf(")/("), modify.indexOf(")/(") + 3, "Q(" + transfer + ",");
+                } else if (modify.indexOf(")/") != -1) {
+                    int i = 1;
+                    boolean ops = false;
+                    while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf(")/") + i) + "")) {
+                        i++;
+                        ops = true;
+                    }
+                    if (ops) {
+                        modify.insert(modify.indexOf(")/") + Indexer.matchParen(modify.toString(), modify.indexOf(")/") + i).length() + 1, ")");
+                    } else {
+                        modify.insert(modify.indexOf(")/") + 3, ')');
+                    }
+                    modify.insert(modify.indexOf(")/") + 2, '(');
+                    transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")/"));
+                    modify.delete(modify.indexOf(")/") + 1 - transfer.length(), modify.indexOf(")/"));
+                    modify.replace(modify.indexOf(")/"), modify.indexOf(")/") + 3, "Q(" + transfer + ",");
                 } else if (modify.indexOf("/(") != -1) {
                     trans = modify.charAt(modify.indexOf("/(") - 1);
                     modify.deleteCharAt(modify.indexOf("/(") - 1);
                     modify.replace(modify.indexOf("/("), modify.indexOf("/(") +2, "Q(" + trans + ",");
-                } else if (modify.indexOf(")/") != -1) {
-                    modify.insert(modify.indexOf(")/") + 3, ')');
-                    modify.insert(modify.indexOf(")/") + 2, '(');
-                    transfer = Indexer.matchParen(modify.toString(), modify.indexOf(")/("));
-                    modify.delete(modify.indexOf(")/(") + 1 - transfer.length(), modify.indexOf(")/("));
-                    modify.replace(modify.indexOf(")/("), modify.indexOf(")/(") + 3, "Q(" + transfer + ",");
                 } else if (modify.indexOf("/") != -1) {
+
+                    trans = modify.charAt(modify.indexOf("/") - 1);
+                    modify.deleteCharAt(modify.indexOf("/") - 1);
                     int i = 1;
                     boolean ops = false;
                     while (Operator.OPERATORS.contains(modify.charAt(modify.indexOf("/") + i) + "")) {
                         i++;
                         ops = true;
                     }
-                    trans = modify.charAt(modify.indexOf("/") - 1);
-                    modify.deleteCharAt(modify.indexOf("/") - 1);
                     if (ops) {
-                        modify.insert(modify.indexOf("/") + Indexer.matchParen(modify.toString(), modify.indexOf("/") + i).length(), ")");
+                        modify.insert(modify.indexOf("/") + Indexer.matchParen(modify.toString(), modify.indexOf("/") + i).length() + 1, ")");
                     } else {
                         modify.insert(modify.indexOf("/") + 2, ')');
                     }

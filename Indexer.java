@@ -161,7 +161,7 @@ public class Indexer {
        String sub;
        String matched = "(";
         if (strong.charAt(index) == '(') {
-            sub = strong.substring(index);
+                 sub = strong.substring(index);
             depth = Indexer.depth(sub, 0);
             for (int i = 1; i < sub.length(); i++) {
                 if (Indexer.depth(sub, i) > depth) {
@@ -183,9 +183,12 @@ public class Indexer {
 
        }
 
-       if (Operator.OPERATORS.contains(strong.charAt(strong.indexOf(matched) - 1) + "")) {
-           matched = strong.charAt(strong.indexOf(matched) - 1) + matched;
-        }
+       if (strong.indexOf(matched) > 0) {
+           if (Operator.OPERATORS.contains(strong.charAt(strong.indexOf(matched) - 1) + "")) {
+               matched = strong.charAt(strong.indexOf(matched) - 1) + matched;
+           }
+       }
+
 
        return matched;
    }
