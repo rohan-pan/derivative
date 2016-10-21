@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class Derivative {
 
+    static char variable;
+
    /** Main method.
     *
     * @param args unused
@@ -14,7 +16,6 @@ public class Derivative {
 
       Scanner keyboard = new Scanner(System.in);
       String expression;
-      String variable;
 
       Explicit ex;
 

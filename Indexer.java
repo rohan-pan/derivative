@@ -183,6 +183,10 @@ public class Indexer {
 
        }
 
+       if (Operator.OPERATORS.contains(strong.charAt(strong.indexOf(matched) - 1) + "")) {
+           matched = strong.charAt(strong.indexOf(matched) - 1) + matched;
+        }
+
        return matched;
    }
 
