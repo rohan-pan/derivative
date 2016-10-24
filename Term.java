@@ -7,7 +7,7 @@ import java.lang.StringBuilder;
 public class Term implements Differentiable {
 
    private boolean negative = false;
-    private String coefficient;
+    private String coefficient = "";
    // Operator operator = new Operator();
     private char operator;
    private String operand;
@@ -340,12 +340,6 @@ public class Term implements Differentiable {
            this.operator = '0';
            this.operand = breakup;
        }
-
-
-
-
-
-
        return this;
 
    }
@@ -377,28 +371,43 @@ public class Term implements Differentiable {
     }
 
     Term derivTrigLog() {
-        Term deriv = new Term();
+        Term deriv = this;
         if (this.operator == 'S') {
             deriv.operator = 'C';
-            deriv.negative = this.negative;
-            deriv.coefficient = this.coefficient;
-            deriv.operand = this.operand;
         }
         if (this.operator == 'C') {
             deriv.operator = 'S';
             deriv.negative = !this.negative;
-            deriv.coefficient = this.coefficient;
-            deriv.operand = this.operand;
         }
         if (this.operator == 'L') {
             deriv.operator = 'Q';
-            deriv.coefficient = this.coefficient;
             deriv.operand = "1,P(L(e," + this.operand.substring(0, Indexer.parentComma(this.operand)) + ")" + ',' + this.operand.substring(Indexer.parentComma(this.operand) + 1) + ")";
-
         }
 
         return deriv;
     }
+
+    /** Performs the product rule of derivatives.
+     *  @return an array of the two term derivative
+     */
+
+    Term[] productRule() {
+      Term[] terms = new Term[2];
+      if (this.operator == 'P') {
+         String[] args = Indexer.findTwoArgs(this.operand);
+
+         terms[1].negative = this.negative;
+         terms[2].negative = this.negative;
+         terms[1].coefficient = this.coefficient;
+         terms[2].coefficient = this.coefficient;
+         terms[1].operator = 'P';
+         terms[2].operator = 'P';
+         terms[1].operand = toTerm(args[1]).derivative().toString() + ',' + args[2];
+         terms[2].operand = toTerm(args[2]).derivative().toString() + ',' + args[1];
+      }
+
+      return terms;
+   }
 
     public boolean isMonomial() {
         return false;

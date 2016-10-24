@@ -243,4 +243,12 @@ public class Indexer {
 
     }
 
+    static String[] findTwoArgs(String operand) {
+      String[] args = new String[2];
+      args[1] = operand.substring(0,Indexer.parentComma(operand));
+      args[2] = operand.substring(Indexer.parentComma(operand) + 1);
+
+      return args;
+   }
+
 }
