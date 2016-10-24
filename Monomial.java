@@ -1,17 +1,33 @@
+/** A special case of Term which has a rigorous method for computing the derivative.
+ * @author Rohan
+ */
+
 public class Monomial extends Term {
 
-   String coefficient;
-   String exponent;
-   String variable;
-   boolean minusCoeff;
-   boolean minusExp;
-   int caratIndex;
+   private String coefficient;
+   private String exponent;
+   private String variable;
+   private boolean minusCoeff;
+   private boolean minusExp;
+   private int caratIndex;
 
    // Constructors
+
+   /** Default constructor.
+    *
+    */
 
    public Monomial() {}
 
    // Methods
+
+   /** Given a string and variable, checks if the string is a monomial. NEEDS TO BE UPDATED
+    * NEED TO PLAN FOR EXCEPTION CATCHING HERE
+    *
+    * @param mono the string to be evaluated
+    * @param var the variable
+    * @return the generated monomial
+    */
 
    public static Monomial parseMonomial(String mono, String var) {
 
@@ -20,7 +36,7 @@ public class Monomial extends Term {
       // m.caratIndex =
       m.variable = var;
 
-      if (mono.indexOf(var) == -1) { // constant
+      if (!mono.contains(var)) { // constant
 
          m.exponent = "0";
          m.minusExp = false;
@@ -68,10 +84,15 @@ public class Monomial extends Term {
       return m;
    }
 
+   /** Converts a monomial to a human-readable string.
+    *
+    * @return the string
+    */
+
    @Override
    public String toString() {
 
-      String monomial = "";
+      String monomial;
 
       if (coefficient.equals("0")) {
          return "0";
@@ -81,19 +102,19 @@ public class Monomial extends Term {
       } else {
          monomial = "+";
       }
-      if (!(coefficient.equals(1))) {
+      if (!(coefficient.equals("1"))) {
          monomial += coefficient;
       }
-      if (coefficient.equals(1)) {
-         if (exponent.equals(0)) {
+      if (coefficient.equals("1")) {
+         if (exponent.equals("0")) {
             monomial += coefficient;
          }
       }
-      if (exponent.equals(0)) {
+      if (exponent.equals("0")) {
          return monomial;
       }
       monomial += variable;
-      if (!(exponent.equals(1))) {
+      if (!(exponent.equals("1"))) {
          monomial += '^';
          if (minusExp) {
             monomial += '-';
