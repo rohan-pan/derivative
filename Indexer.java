@@ -116,16 +116,21 @@ public class Indexer {
     * @return the index of the parent operator
     */
 
-    static int parentOperator(String strong) { // DEBUG THIS TOMORROW
+    static int parentOperator(String strong) {
 
       ArrayList<Integer> ops = indexOperators(strong);
-      int parent = ops.get(0);
+        int parent;
+        if (!(ops.isEmpty())) {
+            parent = ops.get(0);
 
-      for (int i = 1; i < ops.size(); i++) {
-         if (depth(strong, ops.get(i)) < depth(strong, parent)) {
-            parent = ops.get(i);
-         }
-      }
+            for (int i = 1; i < ops.size(); i++) {
+                if (depth(strong, ops.get(i)) < depth(strong, parent)) {
+                    parent = ops.get(i);
+                }
+            }
+        } else {
+            parent = -1;
+        }
 
       return parent;
 
@@ -192,5 +197,50 @@ public class Indexer {
 
        return matched;
    }
+
+    /** Method which takes an operand and finds all operators.
+     *
+     * @param operand the operand
+     * @return an ArrayList of all the indices of the commas
+     */
+
+    private static ArrayList<Integer> indexCommas(String operand) {
+
+        ArrayList<Integer> indexOfCommas = new ArrayList<>();
+
+        for (int i = 0; i < operand.length(); i++) {
+            if (operand.charAt(i) == ',') {
+                indexOfCommas.add(i);
+            }
+        }
+
+        return indexOfCommas;
+    }
+
+    /** Method which finds the parent comma within an operand.
+     *
+     * @param operand the operand
+     * @return the index of the parent comma
+     */
+
+    static int parentComma(String operand) {
+
+        ArrayList<Integer> commas = indexCommas(operand);
+        int parent;
+        if (!(commas.isEmpty())) {
+            parent = commas.get(0);
+
+            for (int i = 1; i < commas.size(); i++) {
+                if (depth(operand, commas.get(i)) < depth(operand, parent)) {
+                    parent = commas.get(i);
+                }
+            }
+        } else {
+            parent = -1;
+        }
+
+        return parent;
+
+    }
 
 }

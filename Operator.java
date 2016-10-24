@@ -7,6 +7,7 @@ public class Operator {
     final static String OPERATORS = "PQELSC";
 
     private char operation;
+    boolean negative;
 
     // Constructor
 
