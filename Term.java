@@ -1,19 +1,17 @@
 import java.lang.StringBuilder;
+import java.util.ArrayList;
 
 /** Class which interfaces with differentiable to compute derivatives.
  *  @author Rohan
  */
 
-public class Term implements Differentiable {
+public class Term {
 
-   private boolean negative = false;
-    private String coefficient = "";
+   boolean negative = false;
+    String coefficient = "";
    // Operator operator = new Operator();
-    private char operator;
-   private String operand;
-
-
-   String strong;
+   char operator;
+   String operand;
 
    // Constructors
 
@@ -346,16 +344,8 @@ public class Term implements Differentiable {
 
 
 
-    /** Checks if a character is a constant according to the strong.
-     *
-     * @param c character to check
-     * @return whether it is a constant
-     */
-
-    public boolean isConstant(char c) {
-        if (Character.isLetterOrDigit(c))
-            if (Character.isDigit(c) || !Operator.OPERATORS.contains(c + "") && c != Derivative.variable) return true;
-        return false;
+    public boolean isConstant(String s) {
+        return true;
     }
 
    /** Calculates the derivative of a term. (WIP)
@@ -363,28 +353,54 @@ public class Term implements Differentiable {
     * @return the derivative
     */
 
-   public Term derivative() {
+   public Term[] derivative() {
+       ArrayList<Term> deriv = new ArrayList<>();
+       Term toDerive = this;
+       while (toDerive.isChain()) {
+           Term dtl = toDerive.derivTrigLog();
+           if (dtl != null) {
+               deriv.add(dtl);
+           }
+           Term[] dpr = toDerive.productRule();
+           if (dpr != null) {
+               deriv.add(dpr[1]);
+               deriv.add(dpr[2]);
+           }
+           Term[] dqr = toDerive.productRule();
+           if (dqr != null) {
+               deriv.add(dqr[1]);
+               deriv.add(dqr[2]);
+            }
+
+           toDerive = toDerive.operand;
+       }
 
 
-
-        return null;
+    return deriv.toArray(Term[] deriv);
     }
 
     Term derivTrigLog() {
         Term deriv = this;
+        boolean derived = false;
         if (this.operator == 'S') {
             deriv.operator = 'C';
+            derived = true;
         }
         if (this.operator == 'C') {
             deriv.operator = 'S';
             deriv.negative = !this.negative;
+            derived = true;
         }
         if (this.operator == 'L') {
             deriv.operator = 'Q';
             deriv.operand = "1,P(L(e," + this.operand.substring(0, Indexer.parentComma(this.operand)) + ")" + ',' + this.operand.substring(Indexer.parentComma(this.operand) + 1) + ")";
+            derived = true;
         }
-
-        return deriv;
+        if (derived){
+            return deriv;
+        } else {
+            return null;
+        }
     }
 
     /** Performs the product rule of derivatives.
@@ -393,6 +409,7 @@ public class Term implements Differentiable {
 
     Term[] productRule() {
       Term[] terms = new Term[2];
+        boolean derived = false;
       if (this.operator == 'P') {
          String[] args = Indexer.findTwoArgs(this.operand);
 
@@ -404,10 +421,44 @@ public class Term implements Differentiable {
          terms[2].operator = 'P';
          terms[1].operand = toTerm(args[1]).derivative().toString() + ',' + args[2];
          terms[2].operand = toTerm(args[2]).derivative().toString() + ',' + args[1];
-      }
 
-      return terms;
+          derived = true;
+      }
+        if (derived) {
+            return terms;
+        } else {
+            return null;
+        }
    }
+
+    /** Performs the quotient rule of derivatives.
+     *
+     * @return an array of the two term derivative
+     */
+
+    Term[] quotientRule() {
+        Term[] terms = new Term[2];
+        boolean derived = false;
+        if (this.operator == 'Q') {
+            String[] args = Indexer.findTwoArgs(this.operand);
+
+            terms[1].negative = this.negative;
+            terms[2].negative = !(this.negative);
+            terms[1].coefficient = this.coefficient;
+            terms[2].coefficient = this.coefficient;
+            terms[1].operator = 'Q';
+            terms[2].operator = 'Q';
+            terms[1].operand = "P(" + toTerm(args[1]).derivative().toString() + ',' + args[2] + "),2" + args[2];
+            terms[2].operand = "P(" + toTerm(args[2]).derivative().toString() + ',' + args[1] + "),2" + args[2];
+
+            derived = true;
+        }
+        if (derived) {
+            return terms;
+        } else {
+            return null;
+        }
+    }
 
     public boolean isMonomial() {
         return false;
@@ -425,6 +476,14 @@ public class Term implements Differentiable {
         output += '(' + operand + ')';
 
         return output;
+    }
+
+    public boolean isChain() {
+        if (Operator.OPERATORS.contains(operand.charAt(0) + "")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

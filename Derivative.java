@@ -42,7 +42,7 @@ public class Derivative {
 
           Term add = new Term();
           terms[i] = add.toTerm(Term.strongPseudo(outputArray[i]));
-          derivs[i] = terms[i].derivTrigLog();
+          // derivs[i] = terms[i].derivative();
             System.out.println(derivs[i].toString());
 
       }
